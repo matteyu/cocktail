@@ -18,7 +18,7 @@ class ExploreContainer extends Component {
 
     localKeys.forEach(key => {
       if(key.includes("idToken")){
-
+        this.setState({accessToken: localStorage[key]})
         api.getRandomCocktail(localStorage[key])
             .then(res => {
                 var resObj = JSON.parse(res.data.body)
