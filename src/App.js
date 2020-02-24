@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import Amplify from 'aws-amplify'
+import aws_exports from './aws-exports'
+import { withAuthenticator } from 'aws-amplify-react'
+import Home from './pages/Home'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -22,16 +25,21 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+Amplify.configure(aws_exports)
+class App extends Component {
+  
+  render() {
+    return (
+      <IonApp>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route path="/home" component={Home} exact={true} />
+            <Route exact path="/" render={() => <Redirect to="/home" />} />
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </IonApp>
+    )
+  }
+}
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
-
-export default App;
+export default withAuthenticator(App, true);

@@ -5,6 +5,8 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  overflow-y: scroll;
+  height: 90%;
 }
 
 .container strong {
